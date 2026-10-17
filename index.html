@@ -29,6 +29,19 @@
     </label>
     <button class="btn" id="newBtn" hidden>+ Create event</button>
   </div>
+  <div class="filters">
+    <label for="fltType" class="flt">Type
+      <select id="fltType"><option value="">All types</option><option>Workshop</option><option>Conference</option><option>Exhibition</option><option>Sports</option><option>Social</option></select>
+    </label>
+    <label for="fltFrom" class="flt">From<input id="fltFrom" type="date"></label>
+    <label for="fltTo" class="flt">To<input id="fltTo" type="date"></label>
+    <button class="btn ghost small" id="clearFlt" hidden>Clear filters</button>
+  </div>
+  <div class="tabs" id="tabs" role="tablist" aria-label="Event lists">
+    <button role="tab" id="tabAll" data-tab="all" aria-selected="true">All events</button>
+    <button role="tab" id="tabMine" data-tab="mine" aria-selected="false">My events <span class="n" id="nMine">0</span></button>
+    <button role="tab" id="tabFav" data-tab="fav" aria-selected="false">Favorites <span class="n" id="nFav">0</span></button>
+  </div>
   <div class="count" id="count"></div>
   <div class="grid" id="grid"></div>
   <p class="note">Sample events are examples. Data is saved in this browser only. <button class="btn ghost small" id="reset">Reset demo</button></p>

@@ -82,3 +82,18 @@ body{margin:0}
 .confirm span{font-size:13px;font-weight:600;color:var(--warm);margin-right:auto}
 .btn.danger{background:var(--warm);color:#fff}
 .danger-text{color:var(--warm)!important}
+/* Phase 3: attendee account (US3, US5, US7, US13) */
+.filters{display:flex;gap:10px;flex-wrap:wrap;align-items:end}
+.flt{display:grid;gap:4px;font-size:12px;font-weight:600;color:var(--muted)}
+.flt select,.flt input{padding:8px 10px;font-size:14px;background:var(--surface);min-width:0}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);overflow-x:auto}
+.tabs button{border:0;background:none;color:var(--muted);font:600 14px var(--body);padding:10px 14px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.tabs .n{font-family:var(--mono);font-size:11px;background:var(--stub);border-radius:999px;padding:1px 7px;margin-left:4px}
+.info-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.fav{border:0;background:none;padding:4px;cursor:pointer;line-height:0;border-radius:8px}
+.fav svg{fill:none;stroke:var(--muted)}
+.fav.on svg{fill:var(--warm);stroke:var(--warm)}
+.reg-done{font-size:13px;font-weight:600;color:var(--ok)}
+.link-btn{justify-self:start;border:0;background:none;padding:0;color:var(--muted);font:500 13px var(--body);text-decoration:underline;cursor:pointer}
+.link-btn:hover{color:var(--warm)}
