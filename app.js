@@ -2,13 +2,13 @@
 const KEY="eventhub-v2";
 const NOTES_KEY="eventhub-v2-notes";
 const seed=()=>{const d=n=>{const x=new Date();x.setDate(x.getDate()+n);return x.toISOString().slice(0,10)};return[
- {id:6,name:"Intro to Agile & Scrum Bootcamp",type:"Workshop",date:d(-3),time:"17:00",place:"PNU, Hall 3",seats:30,taken:27,mine:true,ratings:[5,4,5,4,5,3,4]},
- {id:7,name:"Startup Pitch Night",type:"Social",date:d(2),time:"20:00",place:"Misk Hub, Riyadh",seats:80,taken:46,mine:true,ratings:[]},
- {id:1,name:"AI in Education Workshop",type:"Workshop",date:d(4),time:"10:00",place:"PNU, College of CCIS",seats:40,taken:31,mine:false,ratings:[]},
- {id:2,name:"Riyadh Season Food Festival",type:"Social",date:d(7),time:"19:00",place:"Boulevard City, Riyadh",seats:300,taken:120,mine:false,ratings:[]},
- {id:3,name:"Cybersecurity Awareness Day",type:"Conference",date:d(10),time:"09:00",place:"KAFD Conference Center",seats:150,taken:149,mine:false,ratings:[]},
- {id:4,name:"Women's 5K Fun Run",type:"Sports",date:d(14),time:"06:30",place:"Wadi Hanifa Trail",seats:200,taken:58,mine:false,ratings:[]},
- {id:5,name:"Saudi Design Week Exhibition",type:"Exhibition",date:d(20),time:"16:00",place:"JAX District, Diriyah",seats:500,taken:210,mine:false,ratings:[]}]};
+ {id:6,name:"Intro to Agile & Scrum Bootcamp",desc:"Learn the basics of Agile and Scrum through hands-on team exercises.",type:"Workshop",date:d(-3),time:"17:00",place:"PNU, Hall 3",seats:30,taken:27,mine:true,ratings:[5,4,5,4,5,3,4]},
+ {id:7,name:"Startup Pitch Night",desc:"Watch student startups pitch their ideas to a panel of investors.",type:"Social",date:d(2),time:"20:00",place:"Misk Hub, Riyadh",seats:80,taken:46,mine:true,ratings:[]},
+ {id:1,name:"AI in Education Workshop",desc:"Hands-on session on using AI tools to support teaching and learning.",type:"Workshop",date:d(4),time:"10:00",place:"PNU, College of CCIS",seats:40,taken:31,mine:false,ratings:[]},
+ {id:2,name:"Riyadh Season Food Festival",desc:"Taste dishes from top local restaurants with live cooking stations.",type:"Social",date:d(7),time:"19:00",place:"Boulevard City, Riyadh",seats:300,taken:120,mine:false,ratings:[]},
+ {id:3,name:"Cybersecurity Awareness Day",desc:"Talks and demos on staying safe online, from phishing to strong passwords.",type:"Conference",date:d(10),time:"09:00",place:"KAFD Conference Center",seats:150,taken:149,mine:false,ratings:[]},
+ {id:4,name:"Women's 5K Fun Run",desc:"A friendly 5K run for all fitness levels. Water and medals at the finish.",type:"Sports",date:d(14),time:"06:30",place:"Wadi Hanifa Trail",seats:200,taken:58,mine:false,ratings:[]},
+ {id:5,name:"Saudi Design Week Exhibition",desc:"Explore work from Saudi designers across product, fashion and graphic design.",type:"Exhibition",date:d(20),time:"16:00",place:"JAX District, Diriyah",seats:500,taken:210,mine:false,ratings:[]}]};
 let events,notes;
 try{events=JSON.parse(localStorage.getItem(KEY))||seed()}catch(e){events=seed()}
 try{notes=JSON.parse(localStorage.getItem(NOTES_KEY))||[]}catch(e){notes=[]}
@@ -67,22 +67,23 @@ function render(){
   // Attendees see past events only in "My events" (so they can rate them, US9). Organizers see everything.
   const inTab=e=>role==="organizer"||(tab==="all"&&!isPast(e))||(tab==="mine"&&e.mine)||(tab==="fav"&&e.fav&&!isPast(e));
   const list=events.filter(inTab)
-                   .filter(e=>!q||(e.name+" "+e.type+" "+e.place).toLowerCase().includes(q))
+                   .filter(e=>!q||(e.name+" "+(e.desc||"")+" "+e.type+" "+e.place).toLowerCase().includes(q))
                    .filter(e=>(!fType||e.type===fType)&&(!from||e.date>=from)&&(!to||e.date<=to))
                    .sort((a,b)=>isPast(a)-isPast(b)||(a.date+a.time).localeCompare(b.date+b.time));
   const label=role==="organizer"?"events":tab==="all"?"upcoming events":tab==="mine"?"events you're registered for":"favorite events";
   $("count").textContent=q?`${list.length} result${list.length!==1?"s":""} for “${$("q").value.trim()}”`:`${list.length} ${label}`;
   renderBell();
   if(!list.length){
-    let msg="No events yet.";
-    if(q||filtering) msg="No events match your search or filters. Try changing them.";
+    let msg="No events available. Check back soon for new events.";
+    if(q||filtering) msg="No results found. Try another name or keyword, or change the filters.";
     else if(role==="attendee"&&tab==="mine") msg="You haven't registered for any events yet. Register from All events and they'll show up here.";
     else if(role==="attendee"&&tab==="fav") msg="No favorites yet. Tap the heart on any event to save it here.";
     $("grid").innerHTML=`<div class="empty">${msg}</div>`;return}
   $("grid").innerHTML=list.map(e=>role==="organizer"?organizerCard(e):attendeeCard(e)).join("");
 }
 function stub(e){const [,m,d]=e.date.split("-");return `<div class="stub"><div class="m">${MON[+m-1]}</div><div class="d">${+d}</div><div class="t">${esc(e.time)}</div></div>`}
-function head(e){return `<span class="type">${esc(e.type)}</span><h3>${esc(e.name)}</h3><div class="place">${esc(e.place)}</div>`}
+function head(e){return `<span class="type">${esc(e.type)}</span><h3>${esc(e.name)}</h3>${desc(e)}<div class="place">${esc(e.place)}</div>`}
+const desc=e=>e.desc?`<p class="desc">${esc(e.desc)}</p>`:"";
 const ICON={
   heart:`<svg width="18" height="18" viewBox="0 0 24 24" stroke-width="2"><path d="M12 21s-7.5-4.6-9.5-9.2C1 8.3 3.3 5 6.6 5c2 0 3.4 1.1 4.4 2.5C12 6.1 13.4 5 15.4 5 18.7 5 21 8.3 21.5 11.8 19.5 16.4 12 21 12 21z"/></svg>`,
   share:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg>`
@@ -119,7 +120,7 @@ function attendeeCard(e){
   }
   const n=daysUntil(e);
   const soon=e.mine&&!past&&n<=3?`<span class="chip soon">${n===0?"Today":n===1?"Tomorrow":`In ${n} days`}</span>`:"";
-  return `<article class="ticket ${past?"is-past":""}" id="event-${e.id}">${stub(e)}<div class="info"><div class="info-top"><span class="type">${esc(e.type)}</span>${soon}<span class="icons">${share}${heart}</span></div><h3>${esc(e.name)}</h3><div class="place">${esc(e.place)}</div>
+  return `<article class="ticket ${past?"is-past":""}" id="event-${e.id}">${stub(e)}<div class="info"><div class="info-top"><span class="type">${esc(e.type)}</span>${soon}<span class="icons">${share}${heart}</span></div><h3>${esc(e.name)}</h3>${desc(e)}<div class="place">${esc(e.place)}</div>
     <div class="row">${row}</div>${extra}</div></article>`;
 }
 
@@ -152,7 +153,7 @@ function openPanel(o,ev){
   if(ev){ // US10 Edit: fill the form with the current values
     editingId=ev.id;
     $("ph").textContent="Edit event";$("psub").textContent="Changes show up for attendees right away.";$("submitBtn").textContent="Save changes";
-    $("fName").value=ev.name;$("fType").value=ev.type;$("fDate").value=ev.date;$("fTime").value=ev.time;$("fPlace").value=ev.place;$("fSeats").value=ev.seats;
+    $("fName").value=ev.name;$("fDesc").value=ev.desc||"";$("fType").value=ev.type;$("fDate").value=ev.date;$("fTime").value=ev.time;$("fPlace").value=ev.place;$("fSeats").value=ev.seats;
   }else{
     editingId=null;
     $("ph").textContent="Create a new event";$("psub").textContent="Attendees will see it right away and can register.";$("submitBtn").textContent="Publish event";
@@ -234,22 +235,23 @@ $("grid").addEventListener("click",ev=>{
 // ===== US6 Create a new event / US10 Save edits =====
 $("form").addEventListener("submit",ev=>{
   ev.preventDefault();
-  const name=$("fName").value.trim(),date=$("fDate").value,time=$("fTime").value,place=$("fPlace").value.trim(),seats=parseInt($("fSeats").value,10);
+  const name=$("fName").value.trim(),desc=$("fDesc").value.trim(),date=$("fDate").value,time=$("fTime").value,place=$("fPlace").value.trim(),seats=parseInt($("fSeats").value,10);
   const current=editingId?events.find(x=>x.id===editingId):null;
-  if(!name||!date||!time||!place){$("err").textContent="Fill in all fields to save the event.";return}
+  if(!name||!desc||!date||!time||!place){$("err").textContent="Fill in all fields to save the event.";return}
   if(date<today()&&!(current&&current.date===date)){$("err").textContent="Pick today or a future date.";return}
   if(!(seats>=1)){$("err").textContent="Capacity must be at least 1 seat.";return}
   if(current&&seats<current.taken){$("err").textContent=`${current.taken} people are already registered, so capacity can't be lower than ${current.taken}.`;return}
   if(current){
     const moved=current.date!==date||current.time!==time||current.place!==place;
-    Object.assign(current,{name,type:$("fType").value,date,time,place,seats});
+    Object.assign(current,{name,desc,type:$("fType").value,date,time,place,seats});
     if(current.mine&&moved){current.reminded=false;notify(`${name} was updated: now ${niceDate(current)} at ${time}, ${place}.`,"alert")} // US8: tell registered attendees
     checkReminders();save();openPanel(false);render();toast("Changes saved");
   }else{
-    events.push({id:Date.now(),name,type:$("fType").value,date,time,place,seats,taken:0,mine:false,ratings:[]});
+    events.push({id:Date.now(),name,desc,type:$("fType").value,date,time,place,seats,taken:0,mine:false,ratings:[]});
     save();openPanel(false);render();toast("Event published");
   }
 });
+$("form").addEventListener("input",()=>$("err").textContent=""); // hide the error once the organizer fixes the form
 $("reset").onclick=()=>{events=seed();notes=[];confirmDeleteId=null;confirmCancelId=null;checkReminders();save();render();toast("Demo reset")};
 
 // Start: send any due reminders, draw the page, and jump to a shared event link (US14)
