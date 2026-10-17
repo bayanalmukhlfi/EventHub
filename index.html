@@ -20,7 +20,7 @@
 <main><div class="wrap">
   <div>
     <h1>All events in one place</h1>
-    <p class="sub">Sprint 1 prototype · US1 Browse · US2 Search · US4 Register · US6 Create event</p>
+    <p class="sub">Browse, search and register for events · Organizers create and manage their own</p>
   </div>
   <div class="tools">
     <label class="search" for="q" aria-label="Search events">
@@ -37,7 +37,7 @@
 <div class="scrim" id="scrim" hidden></div>
 <aside class="panel" id="panel" hidden aria-labelledby="ph">
   <h2 id="ph">Create a new event</h2>
-  <p class="sub">Attendees will see it right away and can register.</p>
+  <p class="sub" id="psub">Attendees will see it right away and can register.</p>
   <form id="form" novalidate>
     <label for="fName">Event name<input id="fName" required maxlength="80" placeholder="e.g. Women in Tech Meetup"></label>
     <label for="fType">Type
@@ -52,7 +52,7 @@
     <p class="err" id="err"></p>
     <div class="actions">
       <button type="button" class="btn ghost" id="cancel">Cancel</button>
-      <button type="submit" class="btn">Publish event</button>
+      <button type="submit" class="btn" id="submitBtn">Publish event</button>
     </div>
   </form>
 </aside>
