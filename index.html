@@ -15,6 +15,16 @@
     <button id="asAttendee" aria-pressed="true">Attendee</button>
     <button id="asOrganizer" aria-pressed="false">Organizer</button>
   </div>
+  <div class="bell-wrap">
+    <button class="icon-btn bell" id="bell" aria-label="Notifications" aria-expanded="false" aria-controls="notePanel">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+      <span class="badge" id="bellBadge" hidden>0</span>
+    </button>
+    <div class="note-panel" id="notePanel" hidden>
+      <div class="note-head"><b>Notifications</b><button class="link-btn" id="clearNotes">Clear all</button></div>
+      <ul class="note-list" id="noteList"></ul>
+    </div>
+  </div>
 </div></header>
 
 <main><div class="wrap">
@@ -70,6 +80,10 @@
   </form>
 </aside>
 <div class="toast" id="toast" hidden></div>
+<div class="share-box" id="shareBox" hidden>
+  <label for="shareUrl">Copy this link and send it to your friends</label>
+  <div class="share-row"><input id="shareUrl" readonly><button class="btn small" id="shareClose">Done</button></div>
+</div>
 
 <script src="app.js"></script>
 </body>

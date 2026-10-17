@@ -97,3 +97,43 @@ body{margin:0}
 .reg-done{font-size:13px;font-weight:600;color:var(--ok)}
 .link-btn{justify-self:start;border:0;background:none;padding:0;color:var(--muted);font:500 13px var(--body);text-decoration:underline;cursor:pointer}
 .link-btn:hover{color:var(--warm)}
+/* Phase 4: engagement (US8 notifications, US9 rating, US14 share) */
+.bell-wrap{position:relative}
+.icon-btn{border:0;background:none;padding:6px;cursor:pointer;line-height:0;border-radius:8px;color:var(--muted)}
+.icon-btn svg{stroke:var(--muted)}
+.icon-btn:hover{background:var(--stub)}
+.icon-btn.fav svg{fill:none}
+.icon-btn.fav.on svg{fill:var(--warm);stroke:var(--warm)}
+.bell{position:relative;border:1px solid var(--line);border-radius:999px;padding:8px}
+.badge{position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:var(--warm);color:#fff;font:700 11px/18px var(--body);text-align:center}
+.note-panel{position:absolute;right:0;top:calc(100% + 8px);width:min(340px,calc(100vw - 32px));background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 32px rgba(0,0,0,.14);z-index:15;overflow:hidden}
+.note-head{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid var(--line)}
+.note-list{list-style:none;margin:0;padding:0;max-height:360px;overflow:auto}
+.note-item{padding:10px 14px;border-bottom:1px solid var(--line);border-left:3px solid transparent}
+.note-item p{margin:0;font-size:14px}
+.note-item time{font-size:11px;color:var(--muted);font-family:var(--mono)}
+.note-item.unread{background:var(--stub)}
+.note-item.k-reminder{border-left-color:var(--accent)}
+.note-item.k-success{border-left-color:var(--ok)}
+.note-item.k-alert{border-left-color:var(--warm)}
+.note-empty{padding:18px 14px;color:var(--muted);font-size:14px}
+.icons{display:flex;gap:2px;margin-left:auto}
+.chip.ended{color:var(--muted)}
+.chip.soon{color:var(--accent);background:var(--stub);border-color:transparent}
+.ticket.is-past{opacity:.85}
+.ticket.is-past .stub{filter:grayscale(1)}
+.rate{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding-top:6px;border-top:1px dashed var(--line)}
+.rate-label{font-size:13px;font-weight:600}
+.stars{display:flex}
+.star{border:0;background:none;font-size:22px;line-height:1;padding:0 2px;cursor:pointer;color:var(--line)}
+.star.on{color:#e0a020}
+.stars:hover .star{color:#e0a020}
+.stars .star:hover~.star{color:var(--line)}
+.avg{font-size:13px;color:var(--muted)}
+.avg b{color:var(--ink)}
+.avg-star{color:#e0a020}
+.ticket.highlight{outline:3px solid var(--accent);outline-offset:2px}
+.share-box{position:fixed;left:50%;bottom:calc(70px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);width:min(440px,calc(100vw - 32px));background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;z-index:30;display:grid;gap:8px;box-shadow:0 12px 32px rgba(0,0,0,.14)}
+.share-box label{font-size:13px;font-weight:600}
+.share-row{display:flex;gap:8px}
+.share-row input{flex:1;min-width:0;font-family:var(--mono);font-size:12px}
